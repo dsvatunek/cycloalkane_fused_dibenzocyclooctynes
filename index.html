@@ -1,1 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>3Dmol.js Example</title>
+    <script src="3Dmol-min.js"></script> 
+    <style>
+        body {
+            font-family: Arial;
+        }
+        .figure-box {
+            position: relative;
+            width: 800px;
+			background-color: black;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 20px;
+            overflow: hidden;
+			margin-bottom: 20px;  /* Add bottom margin */
+        }
+        .viewer-container {
+            display: inline-block;
+            margin-bottom: 0px;
+        }
+        .figure-title {
+            font-size: 20px;
+            margin-top: 5px;
+			margin-bottom: 5px; 
+            text-align: center;  
+			color: white;
+        }
+    </style>
+</head>
+<body>
+    <h2>Supplementary 3D Figures</h2>
+    <hr>
+    <h2>Cyclooctyne Reactants</h2>	
+    <div class="figure-box">
+        <div class="viewer-container" id="container1" style="width:800px;height:400px;"></div>
+        <div class="figure-title">Figure 1: 4C-DMBO*</div>
+    </div>
+    <div class="figure-box">
+        <div class="viewer-container" id="container2" style="width:800px;height:400px;"></div>
+        <div class="figure-title">Figure 2: 5C-DMBO*</div>
+    </div>
+    <div class="figure-box">
+        <div class="viewer-container" id="container3" style="width:800px;height:400px;"></div>
+        <div class="figure-title">Figure 3: 6C-DMBO*</div>
+    </div>
+	    <div class="figure-box">
+        <div class="viewer-container" id="container4" style="width:800px;height:400px;"></div>
+        <div class="figure-title">Figure 4: DMBO*</div>
+    </div>
+	    <div class="figure-box">
+        <div class="viewer-container" id="container5" style="width:800px;height:400px;"></div>
+        <div class="figure-title">Figure 5: DIBO*</div>
+    </div>
+	<hr>
+    <h2>Transition States</h2>	
+    <div class="figure-box">
+        <div class="viewer-container" id="container6" style="width:800px;height:400px;"></div>
+        <div class="figure-title">Figure 6: 4C-DMBO*-TS</div>
+    </div>
+    <div class="figure-box">
+        <div class="viewer-container" id="container7" style="width:800px;height:400px;"></div>
+        <div class="figure-title">Figure 7: 5C-DMBO*-TS</div>
+    </div>
+    <div class="figure-box">
+        <div class="viewer-container" id="container8" style="width:800px;height:400px;"></div>
+        <div class="figure-title">Figure 8: 6C-DMBO*-TS</div>
+    </div>
+	    <div class="figure-box">
+        <div class="viewer-container" id="container9" style="width:800px;height:400px;"></div>
+        <div class="figure-title">Figure 9: DMBO*-TS</div>
+    </div>
+	    <div class="figure-box">
+        <div class="viewer-container" id="container10" style="width:800px;height:400px;"></div>
+        <div class="figure-title">Figure 10: DIBO*-TS<sub>face</sub></div>
+    </div>	
+	
+	
+    <script>
+        function createViewer(containerId, xyzData, rotation, rotation2) {
+            var viewer = $3Dmol.createViewer(containerId);
+            
+            fetch(xyzData)
+                .then(response => response.text())
+                .then(text => {
+                    viewer.addModel(text, 'xyz');
+                    viewer.setBackgroundColor(0x000000);
+                    viewer.setStyle({}, {stick: {radius: 0.15}, sphere: {scale: 0.25}});
+                    viewer.rotate(rotation, {x: 0, y: 0, z: 1});
+					viewer.rotate(rotation2, {x: 0, y: 1, z: 0});
+					viewer.setViewStyle({projection: 'orthographic'});
+                    viewer.zoomTo();
+                    viewer.render();
+                })
+                .catch(error => console.log('Error:', error));
+        }
 
+        createViewer('container1', '4C_DMBO.xyz', -180,0);
+        createViewer('container2', '5C_DMBO.xyz', -180,0); 
+		createViewer('container3', '6C_DMBO.xyz', -180,0); 
+		createViewer('container4', 'DMBO.xyz', -180,0); 
+		createViewer('container5', 'DIBO.xyz', 0,0); 
+		createViewer('container6', '4C_DMBO_TS.xyz', 0,0);
+        createViewer('container7', '5C_DMBO_TS.xyz', -90,0);
+		createViewer('container8', '6C_DMBO_TS.xyz', 180,180); 
+		createViewer('container9', 'DMBO_TS.xyz', 0,0); 
+		createViewer('container10', 'DIBO_TS_face.xyz', 0,0); 
+    </script>
+</body>
+</html>
